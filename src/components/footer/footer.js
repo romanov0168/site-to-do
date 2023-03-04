@@ -1,10 +1,23 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-
-import './footer.css';
-import ItemStatusFilter from '../task-filter';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import "./footer.css";
+import ItemStatusFilter from "../task-filter";
 
 export default class Footer extends Component {
+  static defaultProps = {
+    toDo: 0,
+    onSelected: () => {},
+    filter: "All",
+    onDeletedCompleted: () => {},
+  };
+
+  static propTypes = {
+    toDo: PropTypes.number,
+    onSelected: PropTypes.func,
+    filter: PropTypes.string,
+    onDeletedCompleted: PropTypes.func,
+  };
+
   render() {
     const { toDo, onSelected, filter, onDeletedCompleted } = this.props;
 
@@ -19,17 +32,3 @@ export default class Footer extends Component {
     );
   }
 }
-
-Footer.defaultProps = {
-  toDo: 0,
-  onSelected: () => {},
-  filter: 'All',
-  onDeletedCompleted: () => {},
-};
-
-Footer.propTypes = {
-  toDo: PropTypes.number,
-  onSelected: PropTypes.func,
-  filter: PropTypes.string,
-  onDeletedCompleted: PropTypes.func,
-};

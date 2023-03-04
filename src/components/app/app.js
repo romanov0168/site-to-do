@@ -1,34 +1,28 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Footer from '../footer';
-import NewTaskForm from '../new-task-form';
-import TaskList from '../task-list';
+import Footer from "../footer";
+import NewTaskForm from "../new-task-form";
+import TaskList from "../task-list";
 
-import './app.css';
+import "./app.css";
 
 export default class App extends Component {
-  constructor() {
-    super();
+  maxId = 100;
 
-    this.maxId = 100;
-
-    this.state = {
-      todoData: [this.createTask('Drink Coffee'), this.createTask('Make Awesome App'), this.createTask('Have a lunch')],
-      filter: 'All',
-    };
-
-    this.deleteTask = this.deleteTask.bind(this);
-    this.addTask = this.addTask.bind(this);
-    this.onToggleCompleted = this.onToggleCompleted.bind(this);
-    this.onToggleEditing = this.onToggleEditing.bind(this);
-    this.select = this.select.bind(this);
-  }
+  state = {
+    todoData: [
+      this.createTask("Drink Coffee"),
+      this.createTask("Make Awesome App"),
+      this.createTask("Have a lunch"),
+    ],
+    filter: "All",
+  };
 
   createTask(label) {
     return { label, id: this.maxId++, date: new Date() };
   }
 
-  deleteTask(id) {
+  deleteTask = (id) => {
     this.setState(({ todoData }) => {
       const idx = todoData.findIndex((el) => el.id === id);
 
@@ -45,9 +39,9 @@ export default class App extends Component {
         todoData: newArray,
       };
     });
-  }
+  };
 
-  addTask(text) {
+  addTask = (text) => {
     const newTask = this.createTask(text);
 
     this.setState(({ todoData }) => {
@@ -57,7 +51,7 @@ export default class App extends Component {
         todoData: newArr,
       };
     });
-  }
+  };
 
   toggleProperty(arr, id, className) {
     const idx = arr.findIndex((el) => el.id === id);
@@ -70,7 +64,7 @@ export default class App extends Component {
 
     if (newItem.specialStatus === null || newItem.specialStatus === undefined) {
       newItem.specialStatus = className;
-    } else if (className !== 'editing') {
+    } else if (className !== "editing") {
       newItem.specialStatus = null;
     }
 
@@ -79,55 +73,57 @@ export default class App extends Component {
     return newArray;
   }
 
-  onToggleCompleted(id) {
+  onToggleCompleted = (id) => {
     this.setState(({ todoData }) => {
       return {
-        todoData: this.toggleProperty(todoData, id, 'completed'),
+        todoData: this.toggleProperty(todoData, id, "completed"),
       };
     });
-  }
+  };
 
-  onToggleEditing(id) {
+  onToggleEditing = (id) => {
     this.setState(({ todoData }) => {
       return {
-        todoData: this.toggleProperty(todoData, id, 'editing'),
+        todoData: this.toggleProperty(todoData, id, "editing"),
       };
     });
-  }
+  };
 
-  select(event) {
+  select = (event) => {
     this.setState({ filter: event.target.name });
-  }
+  };
 
-  filterTodoData(todoData) {
+  filterTodoData = (todoData) => {
     let newTodoData = [...todoData];
 
-    if (this.state.filter !== 'All') {
+    if (this.state.filter !== "All") {
       newTodoData = newTodoData.filter((element) => {
-        if (this.state.filter === 'Active') {
-          return element.specialStatus !== 'completed';
+        if (this.state.filter === "Active") {
+          return element.specialStatus !== "completed";
         } else {
-          return element.specialStatus === 'completed';
+          return element.specialStatus === "completed";
         }
       });
     }
 
     return newTodoData;
-  }
+  };
 
-  onDeletedCompleted(todoData) {
+  onDeletedCompleted = (todoData) => {
     let newTodoData = [...todoData];
 
     newTodoData = newTodoData.filter((element) => {
-      return element.specialStatus !== 'completed';
+      return element.specialStatus !== "completed";
     });
 
     this.setState({ todoData: newTodoData });
-  }
+  };
 
   render() {
     const { todoData } = this.state;
-    const doneCount = todoData.filter((el) => el.specialStatus === 'completed').length;
+    const doneCount = todoData.filter(
+      (el) => el.specialStatus === "completed"
+    ).length;
     const todoCount = todoData.length - doneCount;
 
     return (

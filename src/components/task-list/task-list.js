@@ -1,10 +1,33 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import Task from '../task';
-import './task-list.css';
+import Task from "../task";
+import "./task-list.css";
 
 export default class TaskList extends Component {
+  //Сначала срабатывает defaultProps, потом propTypes
+  static defaultProps = {
+    onDeleted: () => {},
+    onToggleEditing: () => {},
+    onToggleCompleted: () => {},
+  };
+
+  static propTypes = {
+    // onDeleted: (props, propName, componentName) => {
+    //   const value = props[propName];
+
+    //   if (typeof value === "function") {
+    //     return null;
+    //   }
+
+    //   return new TypeError(`${componentName}: ${propName} must be function`);
+    // },
+    onDeleted: PropTypes.func,
+    todos: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onToggleEditing: PropTypes.func,
+    onToggleCompleted: PropTypes.func,
+  };
+
   render() {
     const { todos, onDeleted, onToggleEditing, onToggleCompleted } = this.props;
 
@@ -27,26 +50,3 @@ export default class TaskList extends Component {
     return <ul className="todo-list">{elements}</ul>;
   }
 }
-
-//Сначала срабатывает defaultProps, потом propTypes
-TaskList.defaultProps = {
-  onDeleted: () => {},
-  onToggleEditing: () => {},
-  onToggleCompleted: () => {},
-};
-
-TaskList.propTypes = {
-  // onDeleted: (props, propName, componentName) => {
-  //   const value = props[propName];
-
-  //   if (typeof value === "function") {
-  //     return null;
-  //   }
-
-  //   return new TypeError(`${componentName}: ${propName} must be function`);
-  // },
-  onDeleted: PropTypes.func,
-  todos: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onToggleEditing: PropTypes.func,
-  onToggleCompleted: PropTypes.func,
-};

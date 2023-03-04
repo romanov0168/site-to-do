@@ -1,32 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import './new-task-form.css';
+import "./new-task-form.css";
 
 export default class NewTaskForm extends Component {
-  constructor() {
-    super();
+  state = {
+    label: "",
+  };
 
-    this.state = {
-      label: '',
-    };
-
-    this.onLabelChange = this.onLabelChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  onLabelChange(e) {
+  onLabelChange = (e) => {
     //Значение не зависит от предыдущего значения, можно писать синхронный
     //код и передать просто объект, а не функцию
     this.setState({
       label: e.target.value,
     });
-  }
+  };
 
-  onSubmit(e) {
+  onSubmit = (e) => {
     e.preventDefault();
     this.props.onTaskAdded(this.state.label);
-    this.setState({ label: '' });
-  }
+    this.setState({ label: "" });
+  };
 
   render() {
     return (
@@ -35,7 +28,7 @@ export default class NewTaskForm extends Component {
         placeholder="What needs to be done?"
         autoFocus
         onKeyDown={(event) => {
-          if (event.code === 'Enter') {
+          if (event.code === "Enter") {
             this.onSubmit(event);
           }
         }}

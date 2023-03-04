@@ -1,9 +1,19 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-import './task-filter.css';
+import "./task-filter.css";
 
 export default class TaskFilter extends Component {
+  static defaultProps = {
+    onSelected: () => {},
+    filter: "All",
+  };
+
+  static propTypes = {
+    onSelected: PropTypes.func,
+    filter: PropTypes.string,
+  };
+
   render() {
     const { onSelected, filter } = this.props;
 
@@ -11,12 +21,12 @@ export default class TaskFilter extends Component {
     let activeClassName;
     let completedClassName;
 
-    if (filter === 'Active') {
-      activeClassName = 'selected';
-    } else if (filter === 'Completed') {
-      completedClassName = 'selected';
+    if (filter === "Active") {
+      activeClassName = "selected";
+    } else if (filter === "Completed") {
+      completedClassName = "selected";
     } else {
-      allClassName = 'selected';
+      allClassName = "selected";
     }
 
     return (
@@ -27,12 +37,20 @@ export default class TaskFilter extends Component {
           </button>
         </li>
         <li>
-          <button className={activeClassName} onClick={onSelected} name="Active">
+          <button
+            className={activeClassName}
+            onClick={onSelected}
+            name="Active"
+          >
             Active
           </button>
         </li>
         <li>
-          <button className={completedClassName} onClick={onSelected} name="Completed">
+          <button
+            className={completedClassName}
+            onClick={onSelected}
+            name="Completed"
+          >
             Completed
           </button>
         </li>
@@ -40,13 +58,3 @@ export default class TaskFilter extends Component {
     );
   }
 }
-
-TaskFilter.defaultProps = {
-  onSelected: () => {},
-  filter: 'All',
-};
-
-TaskFilter.propTypes = {
-  onSelected: PropTypes.func,
-  filter: PropTypes.string,
-};
