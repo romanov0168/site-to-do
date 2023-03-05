@@ -34,6 +34,8 @@ export default class NewTaskForm extends Component {
         className="new-todo"
         placeholder="What needs to be done?"
         autoFocus
+        //Лучше повесить слушатель на отправку формы, но тогда надо будет
+        //редактировать верстку: оборачивать input в form
         onKeyDown={(event) => {
           if (event.code === 'Enter') {
             this.onSubmit(event);

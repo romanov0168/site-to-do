@@ -6,7 +6,7 @@ import './task-list.css';
 
 export default class TaskList extends Component {
   render() {
-    const { todos, onDeleted, onToggleEditing, onToggleCompleted } = this.props;
+    const { todos, onDeleted, onToggleEditing, onToggleCompleted, onSave } = this.props;
 
     const elements = todos.map((item) => {
       // const { id, ...rest } = item;
@@ -19,6 +19,7 @@ export default class TaskList extends Component {
             onDeleted={() => onDeleted(id)}
             onToggleEditing={() => onToggleEditing(id)}
             onToggleCompleted={() => onToggleCompleted(id)}
+            onSave={(event) => onSave(event, id)}
           />
         </li>
       );
@@ -33,6 +34,7 @@ TaskList.defaultProps = {
   onDeleted: () => {},
   onToggleEditing: () => {},
   onToggleCompleted: () => {},
+  onSave: () => {},
 };
 
 TaskList.propTypes = {
@@ -49,4 +51,5 @@ TaskList.propTypes = {
   todos: PropTypes.arrayOf(PropTypes.object).isRequired,
   onToggleEditing: PropTypes.func,
   onToggleCompleted: PropTypes.func,
+  onSave: PropTypes.func,
 };

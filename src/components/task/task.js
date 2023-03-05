@@ -6,7 +6,7 @@ import './task.css';
 
 export default class Task extends Component {
   render() {
-    const { label, date, onDeleted, onToggleEditing, onToggleCompleted, specialStatus } = this.props;
+    const { label, date, onDeleted, onToggleEditing, onToggleCompleted, specialStatus, onSave } = this.props;
 
     let completed = false;
 
@@ -26,7 +26,16 @@ export default class Task extends Component {
           <button className="icon icon-edit" onClick={onToggleEditing}></button>
           <button className="icon icon-destroy" onClick={onDeleted}></button>
         </div>
-        <input type="text" className="edit" defaultValue={label}></input>
+        <input
+          type="text"
+          className="edit"
+          defaultValue={label}
+          onKeyDown={(event) => {
+            if (event.code === 'Enter') {
+              onSave(event);
+            }
+          }}
+        ></input>
       </span>
     );
   }
@@ -39,6 +48,7 @@ Task.defaultProps = {
   onToggleEditing: () => {},
   onToggleCompleted: () => {},
   specialStatus: undefined,
+  onSave: () => {},
 };
 
 Task.propTypes = {
@@ -48,4 +58,5 @@ Task.propTypes = {
   onToggleEditing: PropTypes.func,
   onToggleCompleted: PropTypes.func,
   specialStatus: undefined || PropTypes.string,
+  onSave: PropTypes.func,
 };
