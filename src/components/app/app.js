@@ -22,6 +22,7 @@ export default class App extends Component {
     this.onToggleCompleted = this.onToggleCompleted.bind(this);
     this.onToggleEditing = this.onToggleEditing.bind(this);
     this.select = this.select.bind(this);
+    this.onSave = this.onSave.bind(this);
   }
 
   createTask(label) {
@@ -59,22 +60,26 @@ export default class App extends Component {
     });
   }
 
-  toggleProperty(arr, id, className) {
+  toggleProperty(arr, id, className, event) {
     const idx = arr.findIndex((el) => el.id === id);
 
     const oldTask = arr[idx];
 
-    let newItem = { ...oldTask };
+    let newTask = { ...oldTask };
 
     let newArray = [...arr];
 
-    if (newItem.specialStatus === null || newItem.specialStatus === undefined) {
-      newItem.specialStatus = className;
+    if (newTask.specialStatus === null || newTask.specialStatus === undefined) {
+      newTask.specialStatus = className;
     } else if (className !== 'editing') {
-      newItem.specialStatus = null;
+      newTask.specialStatus = null;
     }
 
-    newArray.splice(idx, 1, newItem);
+    if (event !== undefined) {
+      newTask.label = event.target.value;
+    }
+
+    newArray.splice(idx, 1, newTask);
 
     return newArray;
   }
@@ -125,6 +130,14 @@ export default class App extends Component {
     this.setState({ todoData: newTodoData });
   }
 
+  onSave(event, id) {
+    this.setState(({ todoData }) => {
+      return {
+        todoData: this.toggleProperty(todoData, id, null, event),
+      };
+    });
+  }
+
   render() {
     const { todoData } = this.state;
     const doneCount = todoData.filter((el) => el.specialStatus === 'completed').length;
@@ -142,6 +155,7 @@ export default class App extends Component {
             onDeleted={this.deleteTask}
             onToggleEditing={this.onToggleEditing}
             onToggleCompleted={this.onToggleCompleted}
+            onSave={this.onSave}
           />
           <Footer
             toDo={todoCount}
